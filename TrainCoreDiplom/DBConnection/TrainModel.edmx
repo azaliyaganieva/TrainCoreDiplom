@@ -1,0 +1,1138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище TrainCoreDiplomModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="ID_Log" />
+          </Key>
+          <Property Name="ID_Log" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="Action" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="100" />
+          <Property Name="RecordID" Type="int" />
+          <Property Name="OldValue" Type="nvarchar(max)" />
+          <Property Name="NewValue" Type="nvarchar(max)" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Marshrut">
+          <Key>
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Route" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_start_station" Type="int" Nullable="false" />
+          <Property Name="ID_finish_station" Type="int" Nullable="false" />
+          <Property Name="Duration_hours" Type="int" />
+          <Property Name="Distance_km" Type="int" />
+        </EntityType>
+        <EntityType Name="Passangers">
+          <Key>
+            <PropertyRef Name="ID_Passanger" />
+          </Key>
+          <Property Name="ID_Passanger" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_Pas" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fam_Pas" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number_passport" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PriceSettings">
+          <Key>
+            <PropertyRef Name="ID_Setting" />
+          </Key>
+          <Property Name="ID_Setting" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TypeWagon" Type="int" />
+          <Property Name="DayOfWeek" Type="int" />
+          <Property Name="Season" Type="nvarchar" MaxLength="20" />
+          <Property Name="Coefficient" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Returns">
+          <Key>
+            <PropertyRef Name="ID_Return" />
+          </Key>
+          <Property Name="ID_Return" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Ticket" Type="int" />
+          <Property Name="ReturnDate" Type="datetime" />
+          <Property Name="RefundAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="ProcessedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID_Schedule" />
+          </Key>
+          <Property Name="ID_Schedule" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Train" Type="int" Nullable="false" />
+          <Property Name="ID_Route" Type="int" Nullable="false" />
+          <Property Name="Date_Start" Type="date" Nullable="false" />
+          <Property Name="Time_start" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Date_finish" Type="date" Nullable="false" />
+          <Property Name="Time_finish" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seats">
+          <Key>
+            <PropertyRef Name="ID_Seat" />
+          </Key>
+          <Property Name="ID_Seat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Wagon" Type="int" Nullable="false" />
+          <Property Name="Number_seats" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Type_seats" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsAvailable" Type="bit" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="HasPowerOutlet" Type="bit" />
+          <Property Name="IsNearWindow" Type="bit" />
+          <Property Name="IsLower" Type="bit" />
+          <Property Name="IsNearToilet" Type="bit" />
+        </EntityType>
+        <EntityType Name="Stations">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+          </Key>
+          <Property Name="ID_Station" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_Station" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="255" />
+          <Property Name="Region" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="ID_Ticket" />
+          </Key>
+          <Property Name="ID_Ticket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Passanger" Type="int" Nullable="false" />
+          <Property Name="ID_Seat" Type="int" Nullable="false" />
+          <Property Name="ID_Schedule" Type="int" Nullable="false" />
+          <Property Name="Date_buy" Type="datetime" />
+          <Property Name="Stoimost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="PaymentMethod" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Trains">
+          <Key>
+            <PropertyRef Name="ID_Train" />
+          </Key>
+          <Property Name="ID_Train" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number_train" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ID_type_train" Type="int" Nullable="false" />
+          <Property Name="Name_train" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Type_Trains">
+          <Key>
+            <PropertyRef Name="ID_type_train" />
+          </Key>
+          <Property Name="ID_type_train" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_type_train" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type_Wagons">
+          <Key>
+            <PropertyRef Name="ID_type_wagon" />
+          </Key>
+          <Property Name="ID_type_wagon" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_type_wagon" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Count_seats" Type="int" Nullable="false" />
+          <Property Name="Base_price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="ID_Preference" />
+          </Key>
+          <Property Name="ID_Preference" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_User" Type="int" />
+          <Property Name="PreferWindow" Type="bit" />
+          <Property Name="PreferAisle" Type="bit" />
+          <Property Name="PreferLower" Type="bit" />
+          <Property Name="PreferNearToilet" Type="bit" />
+          <Property Name="PreferPowerOutlet" Type="bit" />
+          <Property Name="PreferQuiet" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Wagons">
+          <Key>
+            <PropertyRef Name="ID_Wagon" />
+          </Key>
+          <Property Name="ID_Wagon" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Train" Type="int" Nullable="false" />
+          <Property Name="ID_type_wagon" Type="int" Nullable="false" />
+          <Property Name="Number_wagon" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AuditLog__ID_Use__66603565">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="AuditLog" Type="Self.AuditLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="AuditLog">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Marshrut__ID_fin__48CFD27E">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Marshrut">
+              <PropertyRef Name="ID_finish_station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Marshrut__ID_sta__47DBAE45">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Marshrut">
+              <PropertyRef Name="ID_start_station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PriceSett__ID_Ty__73BA3083">
+          <End Role="Type_Wagons" Type="Self.Type_Wagons" Multiplicity="0..1" />
+          <End Role="PriceSettings" Type="Self.PriceSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Principal>
+            <Dependent Role="PriceSettings">
+              <PropertyRef Name="ID_TypeWagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Returns__ID_Tick__778AC167">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="0..1" />
+          <End Role="Returns" Type="Self.Returns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="ID_Ticket" />
+            </Principal>
+            <Dependent Role="Returns">
+              <PropertyRef Name="ID_Ticket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Returns__Process__797309D9">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Returns" Type="Self.Returns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="Returns">
+              <PropertyRef Name="ProcessedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__ID_Rou__4CA06362">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__ID_Tra__4BAC3F29">
+          <End Role="Trains" Type="Self.Trains" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trains">
+              <PropertyRef Name="ID_Train" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ID_Train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seats__ID_Wagon__4F7CD00D">
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="1" />
+          <End Role="Seats" Type="Self.Seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wagons">
+              <PropertyRef Name="ID_Wagon" />
+            </Principal>
+            <Dependent Role="Seats">
+              <PropertyRef Name="ID_Wagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Pass__5FB337D6">
+          <End Role="Passangers" Type="Self.Passangers" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passangers">
+              <PropertyRef Name="ID_Passanger" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Passanger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Sche__619B8048">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ID_Schedule" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Seat__60A75C0F">
+          <End Role="Seats" Type="Self.Seats" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seats">
+              <PropertyRef Name="ID_Seat" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Trains__ID_type___412EB0B6">
+          <End Role="Type_Trains" Type="Self.Type_Trains" Multiplicity="1" />
+          <End Role="Trains" Type="Self.Trains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Trains">
+              <PropertyRef Name="ID_type_train" />
+            </Principal>
+            <Dependent Role="Trains">
+              <PropertyRef Name="ID_type_train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrefe__ID_Us__6A30C649">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wagons__ID_Train__440B1D61">
+          <End Role="Trains" Type="Self.Trains" Multiplicity="1" />
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trains">
+              <PropertyRef Name="ID_Train" />
+            </Principal>
+            <Dependent Role="Wagons">
+              <PropertyRef Name="ID_Train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wagons__ID_type___44FF419A">
+          <End Role="Type_Wagons" Type="Self.Type_Wagons" Multiplicity="1" />
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Principal>
+            <Dependent Role="Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище TrainCoreDiplomModelContainer">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marshrut" EntityType="Self.Marshrut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Passangers" EntityType="Self.Passangers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriceSettings" EntityType="Self.PriceSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Returns" EntityType="Self.Returns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seats" EntityType="Self.Seats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stations" EntityType="Self.Stations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trains" EntityType="Self.Trains" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_Trains" EntityType="Self.Type_Trains" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_Wagons" EntityType="Self.Type_Wagons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wagons" EntityType="Self.Wagons" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AuditLog__ID_Use__66603565" Association="Self.FK__AuditLog__ID_Use__66603565">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLog" EntitySet="AuditLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Marshrut__ID_fin__48CFD27E" Association="Self.FK__Marshrut__ID_fin__48CFD27E">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Marshrut" EntitySet="Marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Marshrut__ID_sta__47DBAE45" Association="Self.FK__Marshrut__ID_sta__47DBAE45">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Marshrut" EntitySet="Marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PriceSett__ID_Ty__73BA3083" Association="Self.FK__PriceSett__ID_Ty__73BA3083">
+            <End Role="Type_Wagons" EntitySet="Type_Wagons" />
+            <End Role="PriceSettings" EntitySet="PriceSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Returns__ID_Tick__778AC167" Association="Self.FK__Returns__ID_Tick__778AC167">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="Returns" EntitySet="Returns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Returns__Process__797309D9" Association="Self.FK__Returns__Process__797309D9">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Returns" EntitySet="Returns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__ID_Rou__4CA06362" Association="Self.FK__Schedule__ID_Rou__4CA06362">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__ID_Tra__4BAC3F29" Association="Self.FK__Schedule__ID_Tra__4BAC3F29">
+            <End Role="Trains" EntitySet="Trains" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seats__ID_Wagon__4F7CD00D" Association="Self.FK__Seats__ID_Wagon__4F7CD00D">
+            <End Role="Wagons" EntitySet="Wagons" />
+            <End Role="Seats" EntitySet="Seats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Pass__5FB337D6" Association="Self.FK__Tickets__ID_Pass__5FB337D6">
+            <End Role="Passangers" EntitySet="Passangers" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Sche__619B8048" Association="Self.FK__Tickets__ID_Sche__619B8048">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Seat__60A75C0F" Association="Self.FK__Tickets__ID_Seat__60A75C0F">
+            <End Role="Seats" EntitySet="Seats" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Trains__ID_type___412EB0B6" Association="Self.FK__Trains__ID_type___412EB0B6">
+            <End Role="Type_Trains" EntitySet="Type_Trains" />
+            <End Role="Trains" EntitySet="Trains" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrefe__ID_Us__6A30C649" Association="Self.FK__UserPrefe__ID_Us__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wagons__ID_Train__440B1D61" Association="Self.FK__Wagons__ID_Train__440B1D61">
+            <End Role="Trains" EntitySet="Trains" />
+            <End Role="Wagons" EntitySet="Wagons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wagons__ID_type___44FF419A" Association="Self.FK__Wagons__ID_type___44FF419A">
+            <End Role="Type_Wagons" EntitySet="Type_Wagons" />
+            <End Role="Wagons" EntitySet="Wagons" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TrainCoreDiplomModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="ID_Log" />
+          </Key>
+          <Property Name="ID_Log" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="Action" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RecordID" Type="Int32" />
+          <Property Name="OldValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__AuditLog__ID_Use__66603565" FromRole="AuditLog" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Marshrut">
+          <Key>
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Route" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_start_station" Type="Int32" Nullable="false" />
+          <Property Name="ID_finish_station" Type="Int32" Nullable="false" />
+          <Property Name="Duration_hours" Type="Int32" />
+          <Property Name="Distance_km" Type="Int32" />
+          <NavigationProperty Name="Stations" Relationship="Self.FK__Marshrut__ID_fin__48CFD27E" FromRole="Marshrut" ToRole="Stations" />
+          <NavigationProperty Name="Stations1" Relationship="Self.FK__Marshrut__ID_sta__47DBAE45" FromRole="Marshrut" ToRole="Stations" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Schedule__ID_Rou__4CA06362" FromRole="Marshrut" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Passangers">
+          <Key>
+            <PropertyRef Name="ID_Passanger" />
+          </Key>
+          <Property Name="ID_Passanger" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Pas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fam_Pas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number_passport" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__ID_Pass__5FB337D6" FromRole="Passangers" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="PriceSettings">
+          <Key>
+            <PropertyRef Name="ID_Setting" />
+          </Key>
+          <Property Name="ID_Setting" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TypeWagon" Type="Int32" />
+          <Property Name="DayOfWeek" Type="Int32" />
+          <Property Name="Season" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Coefficient" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Type_Wagons" Relationship="Self.FK__PriceSett__ID_Ty__73BA3083" FromRole="PriceSettings" ToRole="Type_Wagons" />
+        </EntityType>
+        <EntityType Name="Returns">
+          <Key>
+            <PropertyRef Name="ID_Return" />
+          </Key>
+          <Property Name="ID_Return" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Ticket" Type="Int32" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <Property Name="RefundAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ProcessedBy" Type="Int32" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Returns__ID_Tick__778AC167" FromRole="Returns" ToRole="Tickets" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Returns__Process__797309D9" FromRole="Returns" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID_Schedule" />
+          </Key>
+          <Property Name="ID_Schedule" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Train" Type="Int32" Nullable="false" />
+          <Property Name="ID_Route" Type="Int32" Nullable="false" />
+          <Property Name="Date_Start" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Time_start" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Date_finish" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Time_finish" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Marshrut" Relationship="Self.FK__Schedule__ID_Rou__4CA06362" FromRole="Schedule" ToRole="Marshrut" />
+          <NavigationProperty Name="Trains" Relationship="Self.FK__Schedule__ID_Tra__4BAC3F29" FromRole="Schedule" ToRole="Trains" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__ID_Sche__619B8048" FromRole="Schedule" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Seats">
+          <Key>
+            <PropertyRef Name="ID_Seat" />
+          </Key>
+          <Property Name="ID_Seat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Wagon" Type="Int32" Nullable="false" />
+          <Property Name="Number_seats" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type_seats" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="HasPowerOutlet" Type="Boolean" />
+          <Property Name="IsNearWindow" Type="Boolean" />
+          <Property Name="IsLower" Type="Boolean" />
+          <Property Name="IsNearToilet" Type="Boolean" />
+          <NavigationProperty Name="Wagons" Relationship="Self.FK__Seats__ID_Wagon__4F7CD00D" FromRole="Seats" ToRole="Wagons" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Tickets__ID_Seat__60A75C0F" FromRole="Seats" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Stations">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+          </Key>
+          <Property Name="ID_Station" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Station" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Marshrut" Relationship="Self.FK__Marshrut__ID_fin__48CFD27E" FromRole="Stations" ToRole="Marshrut" />
+          <NavigationProperty Name="Marshrut1" Relationship="Self.FK__Marshrut__ID_sta__47DBAE45" FromRole="Stations" ToRole="Marshrut" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="ID_Ticket" />
+          </Key>
+          <Property Name="ID_Ticket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Passanger" Type="Int32" Nullable="false" />
+          <Property Name="ID_Seat" Type="Int32" Nullable="false" />
+          <Property Name="ID_Schedule" Type="Int32" Nullable="false" />
+          <Property Name="Date_buy" Type="DateTime" Precision="3" />
+          <Property Name="Stoimost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Passangers" Relationship="Self.FK__Tickets__ID_Pass__5FB337D6" FromRole="Tickets" ToRole="Passangers" />
+          <NavigationProperty Name="Returns" Relationship="Self.FK__Returns__ID_Tick__778AC167" FromRole="Tickets" ToRole="Returns" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Tickets__ID_Sche__619B8048" FromRole="Tickets" ToRole="Schedule" />
+          <NavigationProperty Name="Seats" Relationship="Self.FK__Tickets__ID_Seat__60A75C0F" FromRole="Tickets" ToRole="Seats" />
+        </EntityType>
+        <EntityType Name="Trains">
+          <Key>
+            <PropertyRef Name="ID_Train" />
+          </Key>
+          <Property Name="ID_Train" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number_train" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_type_train" Type="Int32" Nullable="false" />
+          <Property Name="Name_train" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Schedule__ID_Tra__4BAC3F29" FromRole="Trains" ToRole="Schedule" />
+          <NavigationProperty Name="Type_Trains" Relationship="Self.FK__Trains__ID_type___412EB0B6" FromRole="Trains" ToRole="Type_Trains" />
+          <NavigationProperty Name="Wagons" Relationship="Self.FK__Wagons__ID_Train__440B1D61" FromRole="Trains" ToRole="Wagons" />
+        </EntityType>
+        <EntityType Name="Type_Trains">
+          <Key>
+            <PropertyRef Name="ID_type_train" />
+          </Key>
+          <Property Name="ID_type_train" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_type_train" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Trains" Relationship="Self.FK__Trains__ID_type___412EB0B6" FromRole="Type_Trains" ToRole="Trains" />
+        </EntityType>
+        <EntityType Name="Type_Wagons">
+          <Key>
+            <PropertyRef Name="ID_type_wagon" />
+          </Key>
+          <Property Name="ID_type_wagon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_type_wagon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Count_seats" Type="Int32" Nullable="false" />
+          <Property Name="Base_price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="PriceSettings" Relationship="Self.FK__PriceSett__ID_Ty__73BA3083" FromRole="Type_Wagons" ToRole="PriceSettings" />
+          <NavigationProperty Name="Wagons" Relationship="Self.FK__Wagons__ID_type___44FF419A" FromRole="Type_Wagons" ToRole="Wagons" />
+        </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="ID_Preference" />
+          </Key>
+          <Property Name="ID_Preference" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_User" Type="Int32" />
+          <Property Name="PreferWindow" Type="Boolean" />
+          <Property Name="PreferAisle" Type="Boolean" />
+          <Property Name="PreferLower" Type="Boolean" />
+          <Property Name="PreferNearToilet" Type="Boolean" />
+          <Property Name="PreferPowerOutlet" Type="Boolean" />
+          <Property Name="PreferQuiet" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__UserPrefe__ID_Us__6A30C649" FromRole="UserPreferences" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AuditLog" Relationship="Self.FK__AuditLog__ID_Use__66603565" FromRole="Users" ToRole="AuditLog" />
+          <NavigationProperty Name="Returns" Relationship="Self.FK__Returns__Process__797309D9" FromRole="Users" ToRole="Returns" />
+          <NavigationProperty Name="UserPreferences" Relationship="Self.FK__UserPrefe__ID_Us__6A30C649" FromRole="Users" ToRole="UserPreferences" />
+        </EntityType>
+        <EntityType Name="Wagons">
+          <Key>
+            <PropertyRef Name="ID_Wagon" />
+          </Key>
+          <Property Name="ID_Wagon" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Train" Type="Int32" Nullable="false" />
+          <Property Name="ID_type_wagon" Type="Int32" Nullable="false" />
+          <Property Name="Number_wagon" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Seats" Relationship="Self.FK__Seats__ID_Wagon__4F7CD00D" FromRole="Wagons" ToRole="Seats" />
+          <NavigationProperty Name="Trains" Relationship="Self.FK__Wagons__ID_Train__440B1D61" FromRole="Wagons" ToRole="Trains" />
+          <NavigationProperty Name="Type_Wagons" Relationship="Self.FK__Wagons__ID_type___44FF419A" FromRole="Wagons" ToRole="Type_Wagons" />
+        </EntityType>
+        <Association Name="FK__AuditLog__ID_Use__66603565">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="AuditLog" Type="Self.AuditLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="AuditLog">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Marshrut__ID_fin__48CFD27E">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Marshrut">
+              <PropertyRef Name="ID_finish_station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Marshrut__ID_sta__47DBAE45">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Marshrut">
+              <PropertyRef Name="ID_start_station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__ID_Rou__4CA06362">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Pass__5FB337D6">
+          <End Role="Passangers" Type="Self.Passangers" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passangers">
+              <PropertyRef Name="ID_Passanger" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Passanger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PriceSett__ID_Ty__73BA3083">
+          <End Role="Type_Wagons" Type="Self.Type_Wagons" Multiplicity="0..1" />
+          <End Role="PriceSettings" Type="Self.PriceSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Principal>
+            <Dependent Role="PriceSettings">
+              <PropertyRef Name="ID_TypeWagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Returns__ID_Tick__778AC167">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="0..1" />
+          <End Role="Returns" Type="Self.Returns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="ID_Ticket" />
+            </Principal>
+            <Dependent Role="Returns">
+              <PropertyRef Name="ID_Ticket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Returns__Process__797309D9">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Returns" Type="Self.Returns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="Returns">
+              <PropertyRef Name="ProcessedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Schedule__ID_Tra__4BAC3F29">
+          <End Role="Trains" Type="Self.Trains" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trains">
+              <PropertyRef Name="ID_Train" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ID_Train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Sche__619B8048">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ID_Schedule" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Seats__ID_Wagon__4F7CD00D">
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="1" />
+          <End Role="Seats" Type="Self.Seats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wagons">
+              <PropertyRef Name="ID_Wagon" />
+            </Principal>
+            <Dependent Role="Seats">
+              <PropertyRef Name="ID_Wagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__ID_Seat__60A75C0F">
+          <End Role="Seats" Type="Self.Seats" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seats">
+              <PropertyRef Name="ID_Seat" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ID_Seat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Trains__ID_type___412EB0B6">
+          <End Role="Type_Trains" Type="Self.Type_Trains" Multiplicity="1" />
+          <End Role="Trains" Type="Self.Trains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Trains">
+              <PropertyRef Name="ID_type_train" />
+            </Principal>
+            <Dependent Role="Trains">
+              <PropertyRef Name="ID_type_train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wagons__ID_Train__440B1D61">
+          <End Role="Trains" Type="Self.Trains" Multiplicity="1" />
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trains">
+              <PropertyRef Name="ID_Train" />
+            </Principal>
+            <Dependent Role="Wagons">
+              <PropertyRef Name="ID_Train" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wagons__ID_type___44FF419A">
+          <End Role="Type_Wagons" Type="Self.Type_Wagons" Multiplicity="1" />
+          <End Role="Wagons" Type="Self.Wagons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Principal>
+            <Dependent Role="Wagons">
+              <PropertyRef Name="ID_type_wagon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPrefe__ID_Us__6A30C649">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="ID_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TrainCoreDiplomEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" />
+          <EntitySet Name="Marshrut" EntityType="Self.Marshrut" />
+          <EntitySet Name="Passangers" EntityType="Self.Passangers" />
+          <EntitySet Name="PriceSettings" EntityType="Self.PriceSettings" />
+          <EntitySet Name="Returns" EntityType="Self.Returns" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" />
+          <EntitySet Name="Seats" EntityType="Self.Seats" />
+          <EntitySet Name="Stations" EntityType="Self.Stations" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" />
+          <EntitySet Name="Trains" EntityType="Self.Trains" />
+          <EntitySet Name="Type_Trains" EntityType="Self.Type_Trains" />
+          <EntitySet Name="Type_Wagons" EntityType="Self.Type_Wagons" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Wagons" EntityType="Self.Wagons" />
+          <AssociationSet Name="FK__AuditLog__ID_Use__66603565" Association="Self.FK__AuditLog__ID_Use__66603565">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLog" EntitySet="AuditLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Marshrut__ID_fin__48CFD27E" Association="Self.FK__Marshrut__ID_fin__48CFD27E">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Marshrut" EntitySet="Marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Marshrut__ID_sta__47DBAE45" Association="Self.FK__Marshrut__ID_sta__47DBAE45">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Marshrut" EntitySet="Marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__ID_Rou__4CA06362" Association="Self.FK__Schedule__ID_Rou__4CA06362">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Pass__5FB337D6" Association="Self.FK__Tickets__ID_Pass__5FB337D6">
+            <End Role="Passangers" EntitySet="Passangers" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PriceSett__ID_Ty__73BA3083" Association="Self.FK__PriceSett__ID_Ty__73BA3083">
+            <End Role="Type_Wagons" EntitySet="Type_Wagons" />
+            <End Role="PriceSettings" EntitySet="PriceSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Returns__ID_Tick__778AC167" Association="Self.FK__Returns__ID_Tick__778AC167">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="Returns" EntitySet="Returns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Returns__Process__797309D9" Association="Self.FK__Returns__Process__797309D9">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Returns" EntitySet="Returns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Schedule__ID_Tra__4BAC3F29" Association="Self.FK__Schedule__ID_Tra__4BAC3F29">
+            <End Role="Trains" EntitySet="Trains" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Sche__619B8048" Association="Self.FK__Tickets__ID_Sche__619B8048">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Seats__ID_Wagon__4F7CD00D" Association="Self.FK__Seats__ID_Wagon__4F7CD00D">
+            <End Role="Wagons" EntitySet="Wagons" />
+            <End Role="Seats" EntitySet="Seats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__ID_Seat__60A75C0F" Association="Self.FK__Tickets__ID_Seat__60A75C0F">
+            <End Role="Seats" EntitySet="Seats" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Trains__ID_type___412EB0B6" Association="Self.FK__Trains__ID_type___412EB0B6">
+            <End Role="Type_Trains" EntitySet="Type_Trains" />
+            <End Role="Trains" EntitySet="Trains" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wagons__ID_Train__440B1D61" Association="Self.FK__Wagons__ID_Train__440B1D61">
+            <End Role="Trains" EntitySet="Trains" />
+            <End Role="Wagons" EntitySet="Wagons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wagons__ID_type___44FF419A" Association="Self.FK__Wagons__ID_type___44FF419A">
+            <End Role="Type_Wagons" EntitySet="Type_Wagons" />
+            <End Role="Wagons" EntitySet="Wagons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPrefe__ID_Us__6A30C649" Association="Self.FK__UserPrefe__ID_Us__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище TrainCoreDiplomModelContainer" CdmEntityContainer="TrainCoreDiplomEntities1">
+          <EntitySetMapping Name="AuditLog">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.AuditLog">
+              <MappingFragment StoreEntitySet="AuditLog">
+                <ScalarProperty Name="ID_Log" ColumnName="ID_Log" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marshrut">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Marshrut">
+              <MappingFragment StoreEntitySet="Marshrut">
+                <ScalarProperty Name="ID_Route" ColumnName="ID_Route" />
+                <ScalarProperty Name="ID_start_station" ColumnName="ID_start_station" />
+                <ScalarProperty Name="ID_finish_station" ColumnName="ID_finish_station" />
+                <ScalarProperty Name="Duration_hours" ColumnName="Duration_hours" />
+                <ScalarProperty Name="Distance_km" ColumnName="Distance_km" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passangers">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Passangers">
+              <MappingFragment StoreEntitySet="Passangers">
+                <ScalarProperty Name="ID_Passanger" ColumnName="ID_Passanger" />
+                <ScalarProperty Name="Name_Pas" ColumnName="Name_Pas" />
+                <ScalarProperty Name="Fam_Pas" ColumnName="Fam_Pas" />
+                <ScalarProperty Name="Number_passport" ColumnName="Number_passport" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriceSettings">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.PriceSettings">
+              <MappingFragment StoreEntitySet="PriceSettings">
+                <ScalarProperty Name="ID_Setting" ColumnName="ID_Setting" />
+                <ScalarProperty Name="ID_TypeWagon" ColumnName="ID_TypeWagon" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="Coefficient" ColumnName="Coefficient" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Returns">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Returns">
+              <MappingFragment StoreEntitySet="Returns">
+                <ScalarProperty Name="ID_Return" ColumnName="ID_Return" />
+                <ScalarProperty Name="ID_Ticket" ColumnName="ID_Ticket" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+                <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="ProcessedBy" ColumnName="ProcessedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedule">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="ID_Schedule" ColumnName="ID_Schedule" />
+                <ScalarProperty Name="ID_Train" ColumnName="ID_Train" />
+                <ScalarProperty Name="ID_Route" ColumnName="ID_Route" />
+                <ScalarProperty Name="Date_Start" ColumnName="Date_Start" />
+                <ScalarProperty Name="Time_start" ColumnName="Time_start" />
+                <ScalarProperty Name="Date_finish" ColumnName="Date_finish" />
+                <ScalarProperty Name="Time_finish" ColumnName="Time_finish" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seats">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Seats">
+              <MappingFragment StoreEntitySet="Seats">
+                <ScalarProperty Name="ID_Seat" ColumnName="ID_Seat" />
+                <ScalarProperty Name="ID_Wagon" ColumnName="ID_Wagon" />
+                <ScalarProperty Name="Number_seats" ColumnName="Number_seats" />
+                <ScalarProperty Name="Type_seats" ColumnName="Type_seats" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="HasPowerOutlet" ColumnName="HasPowerOutlet" />
+                <ScalarProperty Name="IsNearWindow" ColumnName="IsNearWindow" />
+                <ScalarProperty Name="IsLower" ColumnName="IsLower" />
+                <ScalarProperty Name="IsNearToilet" ColumnName="IsNearToilet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Stations">
+              <MappingFragment StoreEntitySet="Stations">
+                <ScalarProperty Name="ID_Station" ColumnName="ID_Station" />
+                <ScalarProperty Name="Name_Station" ColumnName="Name_Station" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="ID_Ticket" ColumnName="ID_Ticket" />
+                <ScalarProperty Name="ID_Passanger" ColumnName="ID_Passanger" />
+                <ScalarProperty Name="ID_Seat" ColumnName="ID_Seat" />
+                <ScalarProperty Name="ID_Schedule" ColumnName="ID_Schedule" />
+                <ScalarProperty Name="Date_buy" ColumnName="Date_buy" />
+                <ScalarProperty Name="Stoimost" ColumnName="Stoimost" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trains">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Trains">
+              <MappingFragment StoreEntitySet="Trains">
+                <ScalarProperty Name="ID_Train" ColumnName="ID_Train" />
+                <ScalarProperty Name="Number_train" ColumnName="Number_train" />
+                <ScalarProperty Name="ID_type_train" ColumnName="ID_type_train" />
+                <ScalarProperty Name="Name_train" ColumnName="Name_train" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_Trains">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Type_Trains">
+              <MappingFragment StoreEntitySet="Type_Trains">
+                <ScalarProperty Name="ID_type_train" ColumnName="ID_type_train" />
+                <ScalarProperty Name="Name_type_train" ColumnName="Name_type_train" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_Wagons">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Type_Wagons">
+              <MappingFragment StoreEntitySet="Type_Wagons">
+                <ScalarProperty Name="ID_type_wagon" ColumnName="ID_type_wagon" />
+                <ScalarProperty Name="Name_type_wagon" ColumnName="Name_type_wagon" />
+                <ScalarProperty Name="Count_seats" ColumnName="Count_seats" />
+                <ScalarProperty Name="Base_price" ColumnName="Base_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPreferences">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.UserPreferences">
+              <MappingFragment StoreEntitySet="UserPreferences">
+                <ScalarProperty Name="ID_Preference" ColumnName="ID_Preference" />
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="PreferWindow" ColumnName="PreferWindow" />
+                <ScalarProperty Name="PreferAisle" ColumnName="PreferAisle" />
+                <ScalarProperty Name="PreferLower" ColumnName="PreferLower" />
+                <ScalarProperty Name="PreferNearToilet" ColumnName="PreferNearToilet" />
+                <ScalarProperty Name="PreferPowerOutlet" ColumnName="PreferPowerOutlet" />
+                <ScalarProperty Name="PreferQuiet" ColumnName="PreferQuiet" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wagons">
+            <EntityTypeMapping TypeName="TrainCoreDiplomModel.Wagons">
+              <MappingFragment StoreEntitySet="Wagons">
+                <ScalarProperty Name="ID_Wagon" ColumnName="ID_Wagon" />
+                <ScalarProperty Name="ID_Train" ColumnName="ID_Train" />
+                <ScalarProperty Name="ID_type_wagon" ColumnName="ID_type_wagon" />
+                <ScalarProperty Name="Number_wagon" ColumnName="Number_wagon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

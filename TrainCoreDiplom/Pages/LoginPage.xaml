@@ -1,0 +1,178 @@
+﻿<Page x:Class="TrainCoreDiplom.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Вход в систему"
+      WindowTitle="TrainCore - Вход"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="600" MinWidth="400">
+
+    <Grid>
+        <!-- Левая часть с изображением -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая сторона (бренд) -->
+        <Border Grid.Column="0" Background="{StaticResource PrimaryBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Логотип -->
+                <StackPanel Grid.Row="0" Margin="50,50,50,0" HorizontalAlignment="Center">
+                    <TextBlock Text="TRAINCORE" 
+                               FontSize="48" 
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="железнодорожные билеты" 
+                               FontSize="18"
+                               Foreground="White"
+                               Opacity="0.8"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Центральное сообщение -->
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="50">
+                    <TextBlock Text="Путешествуй с комфортом" 
+                               FontSize="32"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Более 1000 направлений по всей России" 
+                               FontSize="18"
+                               Foreground="White"
+                               Opacity="0.9"
+                               Margin="0,20,0,0"/>
+
+                    <!-- Преимущества -->
+                    <StackPanel Margin="0,40,0,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
+                            <TextBlock Text="Умный подбор мест" Foreground="White" FontSize="16"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
+                            <TextBlock Text="Мгновенное бронирование" Foreground="White" FontSize="16"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
+                            <TextBlock Text="Электронные билеты с QR-кодом" Foreground="White" FontSize="16"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
+                            <TextBlock Text="Программа лояльности" Foreground="White" FontSize="16"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Нижняя часть -->
+                <TextBlock Grid.Row="2" 
+                           Text="© 2025 TrainCore. Все права защищены"
+                           Foreground="White"
+                           Opacity="0.6"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+            </Grid>
+        </Border>
+
+        <!-- Правая часть (форма входа) -->
+        <Border Grid.Column="1" 
+                Background="{StaticResource SurfaceBrush}"
+                CornerRadius="20,0,0,20"
+                Padding="40">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок -->
+                <StackPanel Grid.Row="0" Margin="0,40,0,40">
+                    <TextBlock Text="Добро пожаловать!" 
+                               FontSize="28" 
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"/>
+                    <TextBlock Text="Войдите в систему для продолжения"
+                               FontSize="14"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Форма -->
+                <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                    <!-- Поле логина -->
+                    <TextBlock Text="Логин"
+                               Margin="0,0,0,5"
+                               FontWeight="SemiBold"/>
+                    <TextBox x:Name="LoginTextBox"
+                             Style="{StaticResource ModernTextBoxStyle}"
+                             />
+
+                    <!-- Поле пароля -->
+                    <TextBlock Text="Пароль"
+                               Margin="0,20,0,5"
+                               FontWeight="SemiBold"/>
+                    <PasswordBox x:Name="PasswordBox"
+                                 Style="{StaticResource ModernPasswordBoxStyle}"/>
+
+                    <!-- Забыли пароль? -->
+                    <Button x:Name="ForgotPasswordButton"
+        Content="Забыли пароль?"
+        Style="{StaticResource SecondaryButtonStyle}"
+        Height="30"
+        Padding="0"
+        Margin="0,10,0,0"
+        HorizontalAlignment="Right"
+        Background="Transparent"
+        BorderThickness="0"
+        Click="ForgotPasswordButton_Click"/>
+
+                    <!-- Кнопка входа -->
+                    <Button x:Name="LoginButton"
+                            Content="Войти"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Height="50"
+                            FontSize="16"
+                            Margin="0,30,0,0"
+                            Click="LoginButton_Click"/>
+
+                    <!-- Разделитель -->
+                    <Grid Margin="0,30,0,20">
+                        <Line X1="0" Y1="0" X2="1" Y2="0" 
+                              Stretch="Fill"
+                              Stroke="#E0E0E0"
+                              StrokeThickness="1"
+                              VerticalAlignment="Center"/>
+                        <TextBlock Text="или"
+                                   Background="{StaticResource SurfaceBrush}"
+                                   Padding="10,0"
+                                   HorizontalAlignment="Center"
+                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </Grid>
+
+                    <!-- Кнопка регистрации -->
+                    <Button x:Name="RegisterButton"
+                            Content="Создать аккаунт"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="50"
+                            FontSize="16"
+                            Click="RegisterButton_Click"/>
+                </StackPanel>
+
+                <!-- Дополнительная информация -->
+                <TextBlock Grid.Row="2"
+                           Text="Войти как администратор? manager1 / admin123"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Margin="0,20,0,30"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

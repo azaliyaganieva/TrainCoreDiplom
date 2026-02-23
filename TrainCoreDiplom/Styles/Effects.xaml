@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Эффект тени для карточек -->
+    <DropShadowEffect x:Key="ShadowEffect" 
+                      BlurRadius="10" 
+                      Opacity="0.1" 
+                      ShadowDepth="2"/>
+
+    <!-- Эффект тени для кнопок при наведении -->
+    <DropShadowEffect x:Key="ButtonHoverEffect" 
+                      BlurRadius="15" 
+                      Opacity="0.2" 
+                      ShadowDepth="3"/>
+
+</ResourceDictionary>

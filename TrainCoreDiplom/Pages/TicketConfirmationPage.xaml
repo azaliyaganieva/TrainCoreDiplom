@@ -1,0 +1,342 @@
+﻿<Page x:Class="TrainCoreDiplom.Pages.TicketConfirmationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Электронный билет"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="700" MinWidth="900">
+
+    <Page.Resources>
+        <Style x:Key="TicketCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="15" Opacity="0.15" ShadowDepth="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="20">
+        <StackPanel>
+            <!-- Шапка с успехом -->
+            <Border Style="{StaticResource TicketCardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Border Background="#43A047"
+                                Width="70" Height="70"
+                                CornerRadius="35">
+                            <TextBlock Text="✓" 
+                                       FontSize="48" 
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Билет успешно оформлен!"
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       Foreground="#43A047"/>
+                            <TextBlock x:Name="TicketNumberText"
+                                       FontSize="18"
+                                       Foreground="#1E88E5"
+                                       FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Индикатор отправки на почту -->
+                    <StackPanel x:Name="EmailStatusPanel"
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,0">
+                        <TextBlock x:Name="EmailStatusIcon" Text="⏳" FontSize="20"/>
+                        <TextBlock x:Name="EmailStatusText" 
+                                   Text="Отправка билета на почту..." 
+                                   Margin="10,0,0,0"
+                                   Foreground="#757575"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Сам билет -->
+            <Border Style="{StaticResource TicketCardStyle}" Margin="0,0,0,20">
+                <StackPanel>
+                    <!-- Верхняя часть с логотипом и ШТРИХ-КОДОМ -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="TRAINCORE" 
+                                       FontSize="24" 
+                                       FontWeight="Bold"
+                                       Foreground="#1E88E5"/>
+                            <TextBlock Text="Электронный билет" 
+                                       FontSize="14"
+                                       Foreground="#757575"/>
+                        </StackPanel>
+
+                        <!-- ШТРИХ-КОД -->
+                        <Border Grid.Column="1"
+                                Background="#F5F5F5"
+                                CornerRadius="8"
+                                Padding="10">
+                            <StackPanel>
+                                <Image x:Name="BarcodeImage" 
+                                       Width="250" Height="80"
+                                       Stretch="Uniform"
+                                       Margin="0,0,0,5"/>
+                                <TextBlock x:Name="BarcodeNumberText" 
+                                           Text="000000"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Foreground="#1E88E5"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Штрих-код для турникета"
+                                           FontSize="9"
+                                           Foreground="#757575"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Линия отрыва -->
+                    <Rectangle Height="1" 
+                               StrokeDashArray="5,3"
+                               Stroke="#1E88E5"
+                               StrokeThickness="1"
+                               Margin="0,10,0,20"/>
+
+                    <!-- Информация о поездке -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="ОТПРАВЛЕНИЕ"
+                                       FontSize="11"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="DepartureStationText"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#1E88E5"
+                                       TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DepartureTimeText"
+                                       FontSize="18"
+                                       Margin="0,5,0,0"/>
+                            <TextBlock x:Name="DepartureDateText"
+                                       FontSize="12"
+                                       Foreground="#757575"/>
+                        </StackPanel>
+
+                        <!-- Иконка поезда -->
+                        <StackPanel Grid.Column="1" 
+                                    VerticalAlignment="Center"
+                                    Margin="20,0">
+                            <TextBlock Text="🚆" FontSize="32"/>
+                            <TextBlock x:Name="TravelTimeText" 
+                                       FontSize="12"
+                                       Foreground="#757575"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                            <TextBlock Text="ПРИБЫТИЕ"
+                                       FontSize="11"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="ArrivalStationText"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#43A047"
+                                       TextWrapping="Wrap"
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="ArrivalTimeText"
+                                       FontSize="18"
+                                       Margin="0,5,0,0"
+                                       HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="ArrivalDateText"
+                                       FontSize="12"
+                                       Foreground="#757575"
+                                       HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Детали билета -->
+                    <Border Background="#F8F9FA"
+                            CornerRadius="8"
+                            Padding="15"
+                            Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="ПОЕЗД"
+                                           FontSize="10"
+                                           Foreground="#757575"/>
+                                <TextBlock x:Name="TrainNumberText"
+                                           FontSize="16"
+                                           FontWeight="Bold"/>
+                                <TextBlock x:Name="TrainNameText"
+                                           FontSize="11"
+                                           Foreground="#757575"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="ВАГОН"
+                                           FontSize="10"
+                                           Foreground="#757575"/>
+                                <TextBlock x:Name="WagonNumberText"
+                                           FontSize="16"
+                                           FontWeight="Bold"/>
+                                <TextBlock x:Name="WagonTypeText"
+                                           FontSize="11"
+                                           Foreground="#757575"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="МЕСТО"
+                                           FontSize="10"
+                                           Foreground="#757575"/>
+                                <TextBlock x:Name="SeatNumberText"
+                                           FontSize="16"
+                                           FontWeight="Bold"/>
+                                <TextBlock x:Name="SeatTypeText"
+                                           FontSize="11"
+                                           Foreground="#757575"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3">
+                                <TextBlock Text="ПЛАТФОРМА"
+                                           FontSize="10"
+                                           Foreground="#757575"/>
+                                <TextBlock Text="—"
+                                           FontSize="16"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="уточняйте на вокзале"
+                                           FontSize="8"
+                                           Foreground="#757575"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Пассажир и цена -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="ПАССАЖИР"
+                                       FontSize="10"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="PassengerNameText"
+                                       FontSize="16"
+                                       FontWeight="Bold"/>
+                            <TextBlock x:Name="PassengerDocumentText"
+                                       FontSize="12"
+                                       Foreground="#757575"/>
+                        </StackPanel>
+
+                        <Border Grid.Column="1" 
+                                Background="#E8F5E9"
+                                CornerRadius="8"
+                                Padding="15,8">
+                            <StackPanel>
+                                <TextBlock Text="ИТОГО"
+                                           FontSize="10"
+                                           Foreground="#43A047"/>
+                                <TextBlock x:Name="PriceText"
+                                           FontSize="22"
+                                           FontWeight="Bold"
+                                           Foreground="#43A047"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Кнопки действий -->
+            <Border Style="{StaticResource TicketCardStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Статус -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Статус: " Foreground="#757575"/>
+                        <TextBlock Text="Оплачен" 
+                                   Foreground="#43A047"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <!-- Кнопка отправки на почту -->
+                    <Button Grid.Column="1"
+                            x:Name="EmailButton"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="45"
+                            Width="140"
+                            Margin="0,0,10,0"
+                            Click="EmailButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📧" FontSize="18" Margin="0,0,8,0"/>
+                            <TextBlock Text="На почту"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Кнопка сохранения HTML -->
+                    <Button Grid.Column="2"
+                            x:Name="DownloadButton"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="45"
+                            Width="140"
+                            Margin="0,0,10,0"
+                            Click="DownloadButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📄" FontSize="18" Margin="0,0,8,0"/>
+                            <TextBlock Text="Сохранить HTML"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Кнопка на главную -->
+                    <Button Grid.Column="3"
+                            Content="На главную"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Height="45"
+                            Width="140"
+                            Click="HomeButton_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- Инструкция -->
+            <Border Background="#E3F2FD"
+                    CornerRadius="8"
+                    Padding="15"
+                    Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="ℹ️" FontSize="24" Margin="0,0,15,0"/>
+                    <TextBlock TextWrapping="Wrap"
+                               Foreground="#1E88E5">
+                        Покажите штрих-код на экране телефона на турникете или распечатайте билет. 
+                        Копия билета отправлена на вашу электронную почту.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

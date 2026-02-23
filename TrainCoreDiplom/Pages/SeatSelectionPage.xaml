@@ -1,0 +1,420 @@
+﻿<Page x:Class="TrainCoreDiplom.Pages.SeatSelectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Выбор места"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="700" MinWidth="1000"
+      Background="#F5F7FA">
+
+    <Page.Resources>
+        <Style x:Key="SeatButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#333"
+                                BorderThickness="1"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="5" Opacity="0.3" ShadowDepth="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка с информацией о поезде и счетчиком пассажиров -->
+        <Border Grid.Row="0" 
+                Background="White"
+                CornerRadius="12"
+                Padding="20"
+                Margin="0,0,0,20"
+                Effect="{DynamicResource ShadowEffect}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Name="TrainInfoText" 
+                               FontSize="22" 
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"/>
+                    <TextBlock x:Name="RouteInfoText" 
+                               FontSize="14"
+                               Margin="0,5,0,0"/>
+                    <TextBlock x:Name="DateInfoText" 
+                               FontSize="12"
+                               Foreground="#757575"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Счетчик пассажиров -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="👥" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="PassengerCountComboBox"
+                              Style="{StaticResource ModernComboBoxStyle}"
+                              Width="120"
+                              SelectionChanged="PassengerCountChanged">
+                        <ComboBoxItem Content="1" IsSelected="True"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                    </ComboBox>
+                    <TextBlock Text="пас." FontSize="14" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="#757575"/>
+                </StackPanel>
+
+                <Button Grid.Column="2" 
+                        Content="← Назад"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Height="40"
+                        Width="100"
+                        Click="BackButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Основная часть -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель - предпочтения и рекомендации -->
+            <Border Grid.Column="0"
+                    Background="White"
+                    CornerRadius="12"
+                    Padding="20"
+                    Margin="0,0,20,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="🎯 Умный подбор мест"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"
+                               Margin="0,0,0,15"/>
+
+                    <!-- Предпочтения -->
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="Ваши предпочтения"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,10"/>
+
+                        <CheckBox x:Name="PreferWindowCheckBox"
+                                  Content="У окна"
+                                  Margin="0,5"
+                                  Checked="PreferenceChanged"
+                                  Unchecked="PreferenceChanged"/>
+
+                        <CheckBox x:Name="PreferAisleCheckBox"
+                                  Content="У прохода"
+                                  Margin="0,5"
+                                  Checked="PreferenceChanged"
+                                  Unchecked="PreferenceChanged"/>
+
+                        <CheckBox x:Name="PreferLowerCheckBox"
+                                  Content="Нижняя полка"
+                                  Margin="0,5"
+                                  Checked="PreferenceChanged"
+                                  Unchecked="PreferenceChanged"/>
+
+                        <CheckBox x:Name="PreferPowerCheckBox"
+                                  Content="Рядом с розеткой"
+                                  Margin="0,5"
+                                  Checked="PreferenceChanged"
+                                  Unchecked="PreferenceChanged"/>
+
+                        <CheckBox x:Name="AvoidToiletCheckBox"
+                                  Content="Подальше от туалета"
+                                  Margin="0,5"
+                                  IsChecked="True"
+                                  Checked="PreferenceChanged"
+                                  Unchecked="PreferenceChanged"/>
+                    </StackPanel>
+
+                    <!-- Выбор вагона -->
+                    <StackPanel Grid.Row="2" Margin="0,15,0,15">
+                        <TextBlock Text="Выбор вагона"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox x:Name="WagonComboBox"
+                                  Style="{StaticResource ModernComboBoxStyle}"
+                                  SelectionChanged="WagonComboBox_SelectionChanged"
+                                  DisplayMemberPath="DisplayName"/>
+                    </StackPanel>
+
+                    <!-- Кнопка рекомендаций -->
+                    <Button Grid.Row="3"
+                            x:Name="RecommendButton"
+                            Content="🔍 Подобрать лучшие места"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Height="45"
+                            Margin="0,10,0,15"
+                            Click="RecommendButton_Click"/>
+
+                    <!-- Рекомендации с прокруткой -->
+                    <Grid Grid.Row="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Рекомендуемые места"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E88E5"
+                                   Margin="0,10,0,10"/>
+
+                        <!-- ScrollViewer без CornerRadius -->
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      MaxHeight="300">
+                            <!-- Border с CornerRadius внутри -->
+                            <Border Background="#F8F9FA"
+                                    CornerRadius="8"
+                                    Padding="5">
+                                <ItemsControl x:Name="RecommendationsItemsControl"
+                                              Margin="5">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#E3F2FD"
+                                                    CornerRadius="8"
+                                                    Padding="8"
+                                                    Margin="0,2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="60"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Border Grid.Column="0"
+                                                            Background="#1E88E5"
+                                                            CornerRadius="4"
+                                                            Width="30" Height="30">
+                                                        <TextBlock Text="{Binding SeatNumber}"
+                                                                   Foreground="White"
+                                                                   FontWeight="Bold"
+                                                                   FontSize="12"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"/>
+                                                    </Border>
+
+                                                    <TextBlock Grid.Column="1" 
+                                                               Text="{Binding MatchReason}"
+                                                               FontSize="11"
+                                                               TextWrapping="Wrap"
+                                                               VerticalAlignment="Center"
+                                                               Margin="5,0"/>
+
+                                                    <StackPanel Grid.Column="2" Orientation="Vertical">
+                                                        <TextBlock Text="{Binding Price}"
+                                                                   FontSize="10"
+                                                                   Foreground="#43A047"
+                                                                   FontWeight="Bold"
+                                                                   HorizontalAlignment="Center"/>
+                                                        <Button Content="Выбрать"
+                                                                Style="{StaticResource SecondaryButtonStyle}"
+                                                                Height="22"
+                                                                FontSize="9"
+                                                                Padding="2"
+                                                                Tag="{Binding SeatId}"
+                                                                Click="QuickSelectSeat_Click"
+                                                                Margin="0,2"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Правая панель - схема вагона -->
+            <ScrollViewer Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto"
+                          Background="White">
+                <Border Background="White"
+                        CornerRadius="12"
+                        Padding="20">
+                    <StackPanel>
+                        <TextBlock x:Name="WagonTitleText"
+                                   Text="Схема вагона"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1E88E5"
+                                   Margin="0,0,0,15"
+                                   HorizontalAlignment="Center"/>
+
+                        <!-- Схема расположения -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🚻 Туалет" Foreground="#757575" FontSize="11"/>
+                            <TextBlock Grid.Column="1" Text="🚪 Вход" Foreground="#757575" FontSize="11" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="🚻 Туалет" Foreground="#757575" FontSize="11" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <!-- Сетка мест -->
+                        <ItemsControl x:Name="SeatsRowsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2">
+                                        <ItemsControl ItemsSource="{Binding}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="{Binding Number_seats}"
+                                                            Style="{StaticResource SeatButtonStyle}"
+                                                            Background="{Binding SeatColor}"
+                                                            Tag="{Binding ID_Seat}"
+                                                            Click="SeatButton_Click"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Border Width="30" Height="40" Margin="5,0" Background="Transparent"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Схема расположения низ -->
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🚻" Foreground="#757575" FontSize="11"/>
+                            <TextBlock Grid.Column="1" Text="👨‍✈️ Проводник" Foreground="#757575" FontSize="11" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Text="🚻" Foreground="#757575" FontSize="11" HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <!-- Легенда -->
+                        <WrapPanel Margin="0,20,0,0" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0">
+                                <Border Background="#4CAF50" Width="15" Height="15" CornerRadius="3" Margin="0,0,5,0"/>
+                                <TextBlock Text="Свободно" FontSize="11"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0">
+                                <Border Background="#F44336" Width="15" Height="15" CornerRadius="3" Margin="0,0,5,0"/>
+                                <TextBlock Text="Занято" FontSize="11"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,15,0">
+                                <Border Background="#FFC107" Width="15" Height="15" CornerRadius="3" Margin="0,0,5,0"/>
+                                <TextBlock Text="Рекомендуется" FontSize="11"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Background="#1E88E5" Width="15" Height="15" CornerRadius="3" Margin="0,0,5,0"/>
+                                <TextBlock Text="Выбрано" FontSize="11"/>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Нижняя панель с выбранными местами -->
+        <Border Grid.Row="2" 
+                Background="White"
+                CornerRadius="12"
+                Padding="20"
+                Margin="0,20,0,0"
+                Effect="{DynamicResource ShadowEffect}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="✅ Выбрано: "
+                               FontSize="14"
+                               Foreground="#757575"
+                               VerticalAlignment="Center"/>
+                    <TextBlock x:Name="SelectedCountText" 
+                               Text="0"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0"/>
+                    <TextBlock x:Name="SelectedSeatsListText" 
+                               Text="(не выбраны)"
+                               FontSize="14"
+                               Foreground="#757575"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock x:Name="TotalPriceText" 
+                               Text="0 ₽"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#43A047"
+                               VerticalAlignment="Center"
+                               Margin="0,0,20,0"/>
+
+                    <Button x:Name="ContinueButton"
+                            Content="Продолжить"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Height="45"
+                            Width="150"
+                            FontSize="14"
+                            IsEnabled="False"
+                            Click="ContinueButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

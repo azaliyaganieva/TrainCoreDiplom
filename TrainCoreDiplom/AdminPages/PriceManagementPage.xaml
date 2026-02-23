@@ -1,0 +1,228 @@
+﻿<Page x:Class="TrainCoreDiplom.AdminPages.PriceManagementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Управление ценами"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="600" MinWidth="800">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0"
+        Background="White"
+        CornerRadius="12"
+        Padding="20"
+        Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                   Text="Управление ценами"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Foreground="#1E88E5"/>
+
+                <!-- Кнопка назад -->
+                <Button Grid.Column="1"
+                Content="← Назад"
+                Style="{StaticResource SecondaryButtonStyle}"
+                Height="40"
+                Width="100"
+                Click="BackButton_Click"/>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1"
+                    Background="Transparent"
+                    BorderThickness="0">
+            <!-- Вкладка: Базовые цены -->
+            <TabItem Header="Базовые цены">
+                <Border Background="{StaticResource SurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="20"
+                        Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Цены по типам вагонов"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,20"/>
+
+                        <DataGrid Grid.Row="1"
+                                  x:Name="BasePricesGrid"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="False"
+                                  RowHeight="40"
+                                  Background="Transparent"
+                                  BorderThickness="0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип вагона" 
+                                                    Binding="{Binding Name_type_wagon}"
+                                                    Width="200"
+                                                    IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Кол-во мест" 
+                                                    Binding="{Binding Count_seats}"
+                                                    Width="100"
+                                                    IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Базовая цена" 
+                                                    Binding="{Binding Base_price, StringFormat=N0}"
+                                                    Width="150"/>
+                                <DataGridTemplateColumn Header="Действия" Width="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Сохранить"
+                                                    Style="{StaticResource PrimaryButtonStyle}"
+                                                    Height="30"
+                                                    Width="80"
+                                                    Click="SaveBasePrice_Click"
+                                                    Tag="{Binding ID_type_wagon}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- Вкладка: Сезонные коэффициенты -->
+            <TabItem Header="Сезонные коэффициенты">
+                <Border Background="{StaticResource SurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="20"
+                        Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Коэффициенты по сезонам"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,20"/>
+
+                        <DataGrid Grid.Row="1"
+                                  x:Name="SeasonalPricesGrid"
+                                  AutoGenerateColumns="False"
+                                  RowHeight="40">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Сезон" 
+                                                    Binding="{Binding Season}"
+                                                    Width="150"/>
+                                <DataGridTextColumn Header="Коэффициент" 
+                                                    Binding="{Binding Coefficient}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Дата начала" 
+                                                    Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Дата окончания" 
+                                                    Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}"
+                                                    Width="120"/>
+                                <DataGridTemplateColumn Header="Действия" Width="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="✏" 
+                                                        Width="30"
+                                                        Height="30"
+                                                        Margin="2"/>
+                                                <Button Content="✓" 
+                                                        Width="30"
+                                                        Height="30"
+                                                        Margin="2"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button Grid.Row="2"
+                                Content="➕ Добавить сезонный коэффициент"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Height="40"
+                                Width="200"
+                                Margin="0,20,0,0"
+                                HorizontalAlignment="Left"/>
+                    </Grid>
+                </Border>
+            </TabItem>
+
+            <!-- Вкладка: Скидки -->
+            <TabItem Header="Скидки и акции">
+                <Border Background="{StaticResource SurfaceBrush}"
+                        CornerRadius="12"
+                        Padding="20"
+                        Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Действующие скидки"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,20"/>
+
+                        <DataGrid Grid.Row="1"
+                                  x:Name="DiscountsGrid"
+                                  AutoGenerateColumns="False"
+                                  RowHeight="40">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" 
+                                                    Binding="{Binding Name}"
+                                                    Width="200"/>
+                                <DataGridTextColumn Header="Тип" 
+                                                    Binding="{Binding Type}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Размер" 
+                                                    Binding="{Binding Value}"
+                                                    Width="100"/>
+                                <DataGridTextColumn Header="Действует с" 
+                                                    Binding="{Binding ValidFrom, StringFormat=dd.MM.yyyy}"
+                                                    Width="100"/>
+                                <DataGridTextColumn Header="Действует по" 
+                                                    Binding="{Binding ValidTo, StringFormat=dd.MM.yyyy}"
+                                                    Width="100"/>
+                                <DataGridTemplateColumn Header="Действия" Width="120">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="✏" Width="30" Height="30" Margin="2"/>
+                                                <Button Content="🗑" Width="30" Height="30" Margin="2"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button Grid.Row="2"
+                                Content="➕ Создать скидку"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Height="40"
+                                Width="150"
+                                Margin="0,20,0,0"
+                                HorizontalAlignment="Left"/>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

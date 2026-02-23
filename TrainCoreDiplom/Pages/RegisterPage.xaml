@@ -1,0 +1,207 @@
+﻿<Page x:Class="TrainCoreDiplom.Pages.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Регистрация"
+      WindowTitle="TrainCore - Регистрация"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="700" MinWidth="500">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая часть (форма) -->
+        <Border Grid.Column="0" 
+                Background="{StaticResource SurfaceBrush}"
+                CornerRadius="0,20,20,0"
+                Padding="40">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок -->
+                <StackPanel Grid.Row="0" Margin="0,20,0,30">
+                    <TextBlock Text="Создать аккаунт" 
+                               FontSize="28" 
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"/>
+                    <TextBlock Text="Заполните форму для регистрации"
+                               FontSize="14"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Форма -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- Имя -->
+                        <TextBlock Text="Имя *"
+                                   Margin="0,0,0,5"
+                                   FontWeight="SemiBold"/>
+                        <TextBox x:Name="FirstNameTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 />
+
+                        <!-- Фамилия -->
+                        <TextBlock Text="Фамилия *"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <TextBox x:Name="LastNameTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 />
+
+                        <!-- Email -->
+                        <TextBlock Text="Email *"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <TextBox x:Name="EmailTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 />
+
+                        <!-- Телефон -->
+                        <TextBlock Text="Телефон"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <TextBox x:Name="PhoneTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 />
+
+                        <!-- Логин -->
+                        <TextBlock Text="Логин *"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <TextBox x:Name="LoginTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                 />
+
+                        <!-- Пароль -->
+                        <TextBlock Text="Пароль *"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <PasswordBox x:Name="PasswordBox"
+                                     Style="{StaticResource ModernPasswordBoxStyle}"/>
+
+                        <!-- Подтверждение пароля -->
+                        <TextBlock Text="Подтвердите пароль *"
+                                   Margin="0,15,0,5"
+                                   FontWeight="SemiBold"/>
+                        <PasswordBox x:Name="ConfirmPasswordBox"
+                                     Style="{StaticResource ModernPasswordBoxStyle}"/>
+
+                        <!-- Паспортные данные (необязательно) -->
+                        <TextBlock Text="Паспортные данные (для покупки билетов)"
+                                   Margin="0,20,0,10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource PrimaryBrush}"/>
+
+                        <TextBlock Text="Серия и номер паспорта"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="PassportTextBox"
+                                 Style="{StaticResource ModernTextBoxStyle}"
+                                />
+
+                        <!-- Согласие -->
+                        <CheckBox x:Name="AgreeCheckBox"
+                                  Margin="0,20,0,0">
+                            <TextBlock TextWrapping="Wrap">
+                                Я согласен с <Hyperlink>условиями использования</Hyperlink> 
+                                и <Hyperlink>политикой конфиденциальности</Hyperlink>
+                            </TextBlock>
+                        </CheckBox>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Кнопки -->
+                <StackPanel Grid.Row="2" Margin="0,20,0,30">
+                    <Button x:Name="RegisterButton"
+                            Content="Зарегистрироваться"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Height="50"
+                            FontSize="16"
+                            Click="RegisterButton_Click"/>
+
+                    <Button x:Name="BackToLoginButton"
+                            Content="Уже есть аккаунт? Войти"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Height="40"
+                            Margin="0,10,0,0"
+                            Click="BackToLoginButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Правая часть (информация) -->
+        <Border Grid.Column="1" Background="{StaticResource PrimaryBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Логотип -->
+                <StackPanel Grid.Row="0" Margin="50,50,50,0">
+                    <TextBlock Text="TRAINCORE" 
+                               FontSize="48" 
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Преимущества регистрации -->
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="50">
+                    <TextBlock Text="Преимущества регистрации" 
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,30"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15">
+                        <TextBlock Text="✓" FontSize="24" Foreground="{StaticResource AccentBrush}" Width="40"/>
+                        <StackPanel>
+                            <TextBlock Text="История поездок" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="Все ваши билеты в одном месте" Foreground="White" Opacity="0.8" FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15">
+                        <TextBlock Text="✓" FontSize="24" Foreground="{StaticResource AccentBrush}" Width="40"/>
+                        <StackPanel>
+                            <TextBlock Text="Программа лояльности" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="Копите бонусы и получайте скидки" Foreground="White" Opacity="0.8" FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15">
+                        <TextBlock Text="✓" FontSize="24" Foreground="{StaticResource AccentBrush}" Width="40"/>
+                        <StackPanel>
+                            <TextBlock Text="Быстрое оформление" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="Данные заполняются автоматически" Foreground="White" Opacity="0.8" FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15">
+                        <TextBlock Text="✓" FontSize="24" Foreground="{StaticResource AccentBrush}" Width="40"/>
+                        <StackPanel>
+                            <TextBlock Text="Умные рекомендации" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="Система запоминает ваши предпочтения" Foreground="White" Opacity="0.8" FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Нижняя часть -->
+                <TextBlock Grid.Row="2" 
+                           Text="© 2025 TrainCore. Все права защищены"
+                           Foreground="White"
+                           Opacity="0.6"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

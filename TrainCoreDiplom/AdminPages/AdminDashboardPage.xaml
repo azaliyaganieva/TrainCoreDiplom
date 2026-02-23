@@ -1,0 +1,201 @@
+﻿<Page x:Class="TrainCoreDiplom.AdminPages.AdminDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Панель управления"
+      MaxHeight="1080" MaxWidth="1920"
+      MinHeight="700" MinWidth="1000"
+      Background="#F5F7FA">
+
+    <Page.Resources>
+        <Style x:Key="StatCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="2"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="15,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E3F2FD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левое меню -->
+        <Border Grid.Column="0"
+                Background="White"
+                CornerRadius="12"
+                Padding="0"
+                Margin="0,0,20,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Профиль администратора -->
+                <Border Grid.Row="0"
+                        Background="#1E88E5"
+                        CornerRadius="12,12,0,0"
+                        Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="👤 Администратор"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                        <TextBlock x:Name="AdminNameText"
+                                   Text="Admin"
+                                   Foreground="White"
+                                   Opacity="0.9"
+                                   FontSize="14"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Пункты меню -->
+                <StackPanel Grid.Row="1" Margin="10">
+                    <Button Content="📊 Главная"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Dashboard_Click"/>
+
+                    <Button Content="🚂 Поезда"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Trains_Click"/>
+
+                    <Button Content="📅 Расписание"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Schedule_Click"/>
+
+                    <Button Content="💰 Цены"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Prices_Click"/>
+
+                    <Button Content="👥 Пользователи"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Users_Click"/>
+
+                    <Button Content="📈 Отчеты"
+                            Style="{StaticResource MenuButtonStyle}"
+                            Click="Reports_Click"/>
+                </StackPanel>
+
+                <!-- Выход -->
+                <Button Grid.Row="2"
+                        Content="🚪 Выйти"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Margin="10"
+                        Click="Logout_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Правая часть - контент -->
+        <ScrollViewer Grid.Column="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <!-- Заголовок -->
+                <Border Background="White"
+                        CornerRadius="12"
+                        Padding="20"
+                        Margin="0,0,0,20">
+                    <TextBlock Text="Панель управления"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"/>
+                </Border>
+
+                <!-- Статистика -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Продажи сегодня"
+                                       FontSize="14"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="TodaySalesText"
+                                       FontSize="32"
+                                       FontWeight="Bold"
+                                       Foreground="#43A047"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Выручка сегодня"
+                                       FontSize="14"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="TodayRevenueText"
+                                       FontSize="32"
+                                       FontWeight="Bold"
+                                       Foreground="#1E88E5"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Активных поездов"
+                                       FontSize="14"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="ActiveTrainsText"
+                                       FontSize="32"
+                                       FontWeight="Bold"
+                                       Foreground="#FF9800"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Всего пассажиров"
+                                       FontSize="14"
+                                       Foreground="#757575"/>
+                            <TextBlock x:Name="TotalPassengersText"
+                                       FontSize="32"
+                                       FontWeight="Bold"
+                                       Foreground="#9C27B0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

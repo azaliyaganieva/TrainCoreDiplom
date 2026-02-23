@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ec2dbccec9e4ec79bd6171e47c01849" Name="Diagram1">
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.AuditLog" Width="1.5" PointX="9.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Marshrut" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Passangers" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.PriceSettings" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Returns" Width="1.5" PointX="9.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Schedule" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Seats" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Stations" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Tickets" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Trains" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Type_Trains" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Type_Wagons" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.UserPreferences" Width="1.5" PointX="9.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Users" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrainCoreDiplomModel.Wagons" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__AuditLog__ID_Use__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Marshrut__ID_fin__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Marshrut__ID_sta__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Schedule__ID_Rou__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Tickets__ID_Pass__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__PriceSett__ID_Ty__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Returns__ID_Tick__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Returns__Process__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Schedule__ID_Tra__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Tickets__ID_Sche__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Seats__ID_Wagon__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Tickets__ID_Seat__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Trains__ID_type___412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Wagons__ID_Train__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__Wagons__ID_type___44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="TrainCoreDiplomModel.FK__UserPrefe__ID_Us__6A30C649" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
