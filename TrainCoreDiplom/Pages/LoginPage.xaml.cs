@@ -94,6 +94,7 @@ namespace TrainCoreDiplom.Pages
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
+
             NavigationService.Navigate(new RegisterPage());
         }
 
