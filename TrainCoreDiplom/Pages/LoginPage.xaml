@@ -61,7 +61,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
-                            <TextBlock Text="Электронные билеты с QR-кодом" Foreground="White" FontSize="16"/>
+                            <TextBlock Text="Электронные билеты с Штрихкодом" Foreground="White" FontSize="16"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <TextBlock Text="✓" FontSize="20" Foreground="{StaticResource AccentBrush}" Width="30"/>
@@ -165,13 +165,7 @@
                             Click="RegisterButton_Click"/>
                 </StackPanel>
 
-                <!-- Дополнительная информация -->
-                <TextBlock Grid.Row="2"
-                           Text="Войти как администратор? manager1 / admin123"
-                           Foreground="{StaticResource TextSecondaryBrush}"
-                           FontSize="12"
-                           HorizontalAlignment="Center"
-                           Margin="0,20,0,30"/>
+                
             </Grid>
         </Border>
     </Grid>

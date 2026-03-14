@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TrainCoreDiplom.DBConnection;
-using TrainCoreDiplom.AdminWindows; // Добавь это!
+using TrainCoreDiplom.AdminWindows;
 
 namespace TrainCoreDiplom.AdminPages
 {
@@ -42,13 +42,13 @@ namespace TrainCoreDiplom.AdminPages
                         users.Add(new UserDisplay
                         {
                             ID_User = u.ID_User,
-                            Login = u.Login,
-                            Email = u.Email,
-                            RoleName = GetRoleName(u.Role), // u.Role - это int, не nullable
-                            RoleValue = u.Role, // просто присваиваем
-                            LastLogin = u.LastLogin.HasValue ? u.LastLogin.Value.ToString("dd.MM.yyyy HH:mm") : "никогда",
-                            IsActive = u.IsActive ?? true, // IsActive nullable? проверь в модели
-                            CreatedAt = u.CreatedAt.HasValue ? u.CreatedAt.Value.ToString("dd.MM.yyyy") : ""
+                            Login = u.Login ?? "",
+                            Email = u.Email ?? "",
+                            RoleName = GetRoleName(u.Role),
+                            RoleValue = u.Role,
+                            LastLogin = u.LastLogin?.ToString("dd.MM.yyyy HH:mm") ?? "никогда",
+                            IsActive = u.IsActive ?? true,
+                            CreatedAt = u.CreatedAt?.ToString("dd.MM.yyyy") ?? ""
                         });
                     }
 
@@ -59,10 +59,11 @@ namespace TrainCoreDiplom.AdminPages
             {
                 MessageBox.Show($"Ошибка загрузки пользователей: {ex.Message}", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
+                UsersGrid.ItemsSource = new List<UserDisplay>();
             }
         }
 
-        private string GetRoleName(int role) // role - просто int
+        private string GetRoleName(int role)
         {
             switch (role)
             {
@@ -87,7 +88,7 @@ namespace TrainCoreDiplom.AdminPages
                     if (comboBox.SelectedIndex > 0)
                     {
                         int roleFilter = comboBox.SelectedIndex;
-                        usersList = usersList.Where(u => u.Role == roleFilter).ToList(); // прямое сравнение
+                        usersList = usersList.Where(u => u.Role == roleFilter).ToList();
                     }
 
                     var users = new List<UserDisplay>();
@@ -96,13 +97,13 @@ namespace TrainCoreDiplom.AdminPages
                         users.Add(new UserDisplay
                         {
                             ID_User = u.ID_User,
-                            Login = u.Login,
-                            Email = u.Email,
+                            Login = u.Login ?? "",
+                            Email = u.Email ?? "",
                             RoleName = GetRoleName(u.Role),
                             RoleValue = u.Role,
-                            LastLogin = u.LastLogin.HasValue ? u.LastLogin.Value.ToString("dd.MM.yyyy HH:mm") : "никогда",
+                            LastLogin = u.LastLogin?.ToString("dd.MM.yyyy HH:mm") ?? "никогда",
                             IsActive = u.IsActive ?? true,
-                            CreatedAt = u.CreatedAt.HasValue ? u.CreatedAt.Value.ToString("dd.MM.yyyy") : ""
+                            CreatedAt = u.CreatedAt?.ToString("dd.MM.yyyy") ?? ""
                         });
                     }
 

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Смена роли"
-        Height="466" Width="400"
+        Height="450" Width="450"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="#F5F7FA">
@@ -28,7 +28,8 @@
                 CornerRadius="8"
                 Padding="15"
                 Margin="0,0,0,20">
-            <TextBlock Text="Выберите новую роль пользователя"
+            <TextBlock x:Name="TitleText"
+                       Text="Выберите новую роль пользователя"
                        FontSize="16"
                        FontWeight="Bold"
                        Foreground="White"
@@ -36,52 +37,63 @@
         </Border>
 
         <!-- Выбор роли -->
-        <Border Grid.Row="1"
-                Background="White"
-                CornerRadius="8"
-                Padding="20">
-            <StackPanel VerticalAlignment="Center">
-                <RadioButton x:Name="AdminRadioButton" 
-                             Content="👑 Администратор (полный доступ)"
-                             GroupName="Role"
-                             Margin="0,0,0,15"
-                             Foreground="#1E88E5"
-                             FontWeight="SemiBold"/>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Border Background="White"
+                    CornerRadius="8"
+                    Padding="20">
+                <StackPanel>
+                    <RadioButton x:Name="AdminRadioButton" 
+                                 Content="👑 Администратор (полный доступ)"
+                                 GroupName="Role"
+                                 Margin="0,0,0,15"
+                                 Foreground="#1E88E5"
+                                 FontWeight="SemiBold"/>
 
-                <RadioButton x:Name="ManagerRadioButton" 
-                             Content="📊 Менеджер (управление поездами)"
-                             GroupName="Role"
-                             Margin="0,0,0,15"
-                             Foreground="#FF9800"
-                             FontWeight="SemiBold"/>
+                    <RadioButton x:Name="ManagerRadioButton" 
+                                 Content="📊 Менеджер (управление поездами)"
+                                 GroupName="Role"
+                                 Margin="0,0,0,15"
+                                 Foreground="#FF9800"
+                                 FontWeight="SemiBold"/>
 
-                <RadioButton x:Name="UserRadioButton" 
-                             Content="👤 Пользователь (только покупка билетов)"
-                             GroupName="Role"
-                             IsChecked="True"
-                             Foreground="#4CAF50"
-                             FontWeight="SemiBold"/>
+                    <RadioButton x:Name="UserRadioButton" 
+                                 Content="👤 Пользователь (только покупка билетов)"
+                                 GroupName="Role"
+                                 IsChecked="True"
+                                 Foreground="#4CAF50"
+                                 FontWeight="SemiBold"/>
 
-                <TextBlock Text="Внимание: изменение роли влияет на доступ пользователя к функциям системы"
-                           FontSize="11"
-                           Foreground="#757575"
-                           TextWrapping="Wrap"
-                           Margin="0,20,0,0"/>
-            </StackPanel>
-        </Border>
+                    <Border Background="#E3F2FD"
+                            CornerRadius="8"
+                            Padding="15"
+                            Margin="0,20,0,0">
+                        <StackPanel>
+                            <TextBlock Text="⚠️ Внимание!"
+                                       FontWeight="Bold"
+                                       Foreground="#1E88E5"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="Изменение роли влияет на доступ пользователя к функциям системы"
+                                       FontSize="11"
+                                       Foreground="#757575"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="2" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
                     Margin="0,20,0,0">
-
             <Button Content="Отмена" 
                     Style="{StaticResource SecondaryButtonStyle}"
                     Width="100" Height="40"
                     Margin="0,0,10,0"
                     Click="CancelButton_Click"/>
-
             <Button Content="Сохранить" 
                     Style="{StaticResource PrimaryButtonStyle}"
                     Width="100" Height="40"

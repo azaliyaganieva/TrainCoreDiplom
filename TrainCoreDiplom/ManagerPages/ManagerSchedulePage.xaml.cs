@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using TrainCoreDiplom.DBConnection;
 using TrainCoreDiplom.AdminWindows;
 
-namespace TrainCoreDiplom.AdminPages
+namespace TrainCoreDiplom.ManagerPages
 {
-    public partial class ScheduleManagementPage : Page
+    public partial class ManagerSchedulePage : Page
     {
         public class ScheduleDisplay
         {
@@ -22,7 +22,6 @@ namespace TrainCoreDiplom.AdminPages
             public int FreeSeats { get; set; }
         }
 
-        // Классы для элементов ComboBox
         public class TrainFilterItem
         {
             public int Id { get; set; }
@@ -35,7 +34,7 @@ namespace TrainCoreDiplom.AdminPages
             public string Display { get; set; }
         }
 
-        public ScheduleManagementPage()
+        public ManagerSchedulePage()
         {
             InitializeComponent();
             LoadFilters();
@@ -58,14 +57,14 @@ namespace TrainCoreDiplom.AdminPages
                         trainList.Add(new TrainFilterItem
                         {
                             Id = t.ID_Train,
-                            Display = $"{t.Number_train} {t.Name_train}"
+                            Display = t.Number_train + " " + t.Name_train
                         });
                     }
 
                     TrainFilterComboBox.ItemsSource = trainList;
-                    TrainFilterComboBox.SelectedIndex = 0;
                     TrainFilterComboBox.DisplayMemberPath = "Display";
                     TrainFilterComboBox.SelectedValuePath = "Id";
+                    TrainFilterComboBox.SelectedIndex = 0;
 
                     // Загрузка маршрутов
                     var routes = db.Marshrut.ToList();
@@ -74,26 +73,29 @@ namespace TrainCoreDiplom.AdminPages
 
                     foreach (var r in routes)
                     {
-                        string from = db.Stations.Find(r.ID_start_station)?.Name_Station ?? "";
-                        string to = db.Stations.Find(r.ID_finish_station)?.Name_Station ?? "";
+                        var fromStation = db.Stations.Find(r.ID_start_station);
+                        var toStation = db.Stations.Find(r.ID_finish_station);
+                        string from = fromStation != null ? fromStation.Name_Station : "";
+                        string to = toStation != null ? toStation.Name_Station : "";
+
                         routeList.Add(new RouteFilterItem
                         {
                             Id = r.ID_Route,
-                            Display = $"{from} → {to}"
+                            Display = from + " → " + to
                         });
                     }
 
                     RouteFilterComboBox.ItemsSource = routeList;
-                    RouteFilterComboBox.SelectedIndex = 0;
                     RouteFilterComboBox.DisplayMemberPath = "Display";
                     RouteFilterComboBox.SelectedValuePath = "Id";
+                    RouteFilterComboBox.SelectedIndex = 0;
 
                     DateFilterPicker.SelectedDate = DateTime.Today;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки фильтров: {ex.Message}", "Ошибка",
+                MessageBox.Show("Ошибка загрузки фильтров: " + ex.Message, "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -106,7 +108,6 @@ namespace TrainCoreDiplom.AdminPages
                 {
                     var query = db.Schedule.AsQueryable();
 
-                    // Применяем фильтры с безопасным приведением
                     if (TrainFilterComboBox.SelectedItem != null)
                     {
                         var selectedTrain = TrainFilterComboBox.SelectedItem as TrainFilterItem;
@@ -127,7 +128,7 @@ namespace TrainCoreDiplom.AdminPages
 
                     if (DateFilterPicker.SelectedDate.HasValue)
                     {
-                        var date = DateFilterPicker.SelectedDate.Value.Date;
+                        DateTime date = DateFilterPicker.SelectedDate.Value.Date;
                         query = query.Where(s => s.Date_Start == date);
                     }
 
@@ -136,17 +137,18 @@ namespace TrainCoreDiplom.AdminPages
 
                     foreach (var s in scheduleList)
                     {
-                        var train = db.Trains.FirstOrDefault(t => t.ID_Train == s.ID_Train);
-                        var route = db.Marshrut.FirstOrDefault(r => r.ID_Route == s.ID_Route);
+                        var train = db.Trains.Find(s.ID_Train);
+                        var route = db.Marshrut.Find(s.ID_Route);
 
-                        string from = "", to = "";
+                        string from = "";
+                        string to = "";
 
                         if (route != null)
                         {
-                            var fromStation = db.Stations.FirstOrDefault(st => st.ID_Station == route.ID_start_station);
-                            var toStation = db.Stations.FirstOrDefault(st => st.ID_Station == route.ID_finish_station);
-                            from = fromStation?.Name_Station ?? "";
-                            to = toStation?.Name_Station ?? "";
+                            var fromStation = db.Stations.Find(route.ID_start_station);
+                            var toStation = db.Stations.Find(route.ID_finish_station);
+                            if (fromStation != null) from = fromStation.Name_Station;
+                            if (toStation != null) to = toStation.Name_Station;
                         }
 
                         int freeSeats = 0;
@@ -156,17 +158,20 @@ namespace TrainCoreDiplom.AdminPages
                             freeSeats += db.Seats.Count(seat => seat.ID_Wagon == w.ID_Wagon && seat.IsAvailable == true);
                         }
 
-                        displayList.Add(new ScheduleDisplay
-                        {
-                            ID_Schedule = s.ID_Schedule,
-                            TrainNumber = train != null ? $"{train.Number_train} {train.Name_train}" : "Неизвестно",
-                            RouteName = $"{from} → {to}",
-                            DepartureDate = s.Date_Start.ToString("dd.MM.yyyy"),
-                            DepartureTime = s.Time_start.ToString(@"hh\:mm"),
-                            ArrivalDate = s.Date_finish.ToString("dd.MM.yyyy"),
-                            ArrivalTime = s.Time_finish.ToString(@"hh\:mm"),
-                            FreeSeats = freeSeats
-                        });
+                        var item = new ScheduleDisplay();
+                        item.ID_Schedule = s.ID_Schedule;
+                        if (train != null)
+                            item.TrainNumber = train.Number_train + " " + train.Name_train;
+                        else
+                            item.TrainNumber = "Неизвестно";
+                        item.RouteName = from + " → " + to;
+                        item.DepartureDate = s.Date_Start.ToString("dd.MM.yyyy");
+                        item.DepartureTime = s.Time_start.ToString(@"hh\:mm");
+                        item.ArrivalDate = s.Date_finish.ToString("dd.MM.yyyy");
+                        item.ArrivalTime = s.Time_finish.ToString(@"hh\:mm");
+                        item.FreeSeats = freeSeats;
+
+                        displayList.Add(item);
                     }
 
                     ScheduleGrid.ItemsSource = displayList;
@@ -174,7 +179,7 @@ namespace TrainCoreDiplom.AdminPages
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки расписания: {ex.Message}", "Ошибка",
+                MessageBox.Show("Ошибка загрузки расписания: " + ex.Message, "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -191,7 +196,7 @@ namespace TrainCoreDiplom.AdminPages
         private void EditSchedule_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            if (button?.Tag != null)
+            if (button != null && button.Tag != null)
             {
                 int scheduleId = Convert.ToInt32(button.Tag);
                 using (var db = new TrainCoreDiplomEntities1())
@@ -212,7 +217,7 @@ namespace TrainCoreDiplom.AdminPages
         private void DeleteSchedule_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            if (button?.Tag != null)
+            if (button != null && button.Tag != null)
             {
                 int scheduleId = Convert.ToInt32(button.Tag);
 
@@ -238,7 +243,7 @@ namespace TrainCoreDiplom.AdminPages
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                        MessageBox.Show("Ошибка: " + ex.Message, "Ошибка",
                                       MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }

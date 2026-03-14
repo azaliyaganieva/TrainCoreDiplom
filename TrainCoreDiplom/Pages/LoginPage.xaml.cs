@@ -30,19 +30,18 @@ namespace TrainCoreDiplom.Pages
             {
                 using (var db = new TrainCoreDiplomEntities1())
                 {
-                    // Ищем пользователя по логину
                     var user = db.Users.FirstOrDefault(u => u.Login == login);
 
                     if (user == null)
                     {
-                        MessageBox.Show($"Пользователь '{login}' не найден", "Ошибка",
+                        MessageBox.Show("Пользователь '" + login + "' не найден", "Ошибка",
                             MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
                     if (user.IsActive != true)
                     {
-                        MessageBox.Show($"Пользователь '{login}' заблокирован", "Ошибка",
+                        MessageBox.Show("Пользователь '" + login + "' заблокирован", "Ошибка",
                             MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
@@ -55,16 +54,24 @@ namespace TrainCoreDiplom.Pages
                         user.LastLogin = DateTime.Now;
                         db.SaveChanges();
 
-                        string roleName = "Пользователь";
-                        if (user.Role == 1) roleName = "Администратор";
-                        else if (user.Role == 2) roleName = "Менеджер";
+                        string roleName = "Неизвестно";
+                        if (user.Role == 1)
+                            roleName = "Администратор";
+                        else if (user.Role == 2)
+                            roleName = "Менеджер";
+                        else if (user.Role == 3)
+                            roleName = "Пользователь";
 
-                        MessageBox.Show($"Добро пожаловать, {login}!\nВаша роль: {roleName}",
+                        MessageBox.Show("Добро пожаловать, " + login + "!\nВаша роль: " + roleName,
                             "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                        if (user.Role == 1 || user.Role == 2)
+                        if (user.Role == 1)
                         {
                             NavigationService.Navigate(new AdminPages.AdminDashboardPage());
+                        }
+                        else if (user.Role == 2)
+                        {
+                            NavigationService.Navigate(new ManagerPages.ManagerDashboardPage());
                         }
                         else
                         {
@@ -73,24 +80,26 @@ namespace TrainCoreDiplom.Pages
                     }
                     else
                     {
-                        MessageBox.Show($"Неверный пароль для пользователя '{login}'",
+                        MessageBox.Show("Неверный пароль для пользователя '" + login + "'",
                             "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка подключения к БД: {ex.Message}",
+                MessageBox.Show("Ошибка подключения к БД: " + ex.Message,
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void ForgotPasswordButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new ForgotPasswordPage());
-        }
+
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new RegisterPage());
+        }
+
+        private void ForgotPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ForgotPasswordPage());
         }
     }
 }

@@ -74,10 +74,8 @@ namespace TrainCoreDiplom.AdminWindows
 
                     foreach (var w in wagons)
                     {
-                        // Загружаем тип вагона
                         db.Entry(w).Reference(x => x.Type_Wagons).Load();
 
-                        // Считаем места
                         int seatsCount = db.Seats.Count(s => s.ID_Wagon == w.ID_Wagon);
                         int freeSeats = db.Seats.Count(s => s.ID_Wagon == w.ID_Wagon && s.IsAvailable == true);
 
@@ -157,11 +155,8 @@ namespace TrainCoreDiplom.AdminWindows
                             var wagon = db.Wagons.Find(wagonId);
                             if (wagon != null)
                             {
-                                // Удаляем все места в вагоне
                                 var seats = db.Seats.Where(s => s.ID_Wagon == wagonId).ToList();
                                 db.Seats.RemoveRange(seats);
-
-                                // Удаляем вагон
                                 db.Wagons.Remove(wagon);
                                 db.SaveChanges();
 
@@ -186,7 +181,7 @@ namespace TrainCoreDiplom.AdminWindows
             if (button?.Tag != null)
             {
                 int wagonId = Convert.ToInt32(button.Tag);
-                NavigationService.Navigate(new AdminPages.SeatsManagementPage(wagonId)); // ← исправлено
+                NavigationService.Navigate(new AdminPages.SeatsManagementPage(wagonId));
             }
         }
 

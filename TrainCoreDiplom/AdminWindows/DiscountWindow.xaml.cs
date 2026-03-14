@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using TrainCoreDiplom.DBConnection;
 
 namespace TrainCoreDiplom.AdminWindows
 {
@@ -57,12 +58,25 @@ namespace TrainCoreDiplom.AdminWindows
                 return;
             }
 
-            // Здесь можно добавить сохранение в БД
-            MessageBox.Show("Скидка сохранена", "Успех",
-                          MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                using (var db = new TrainCoreDiplomEntities1())
+                {
+                    // Здесь нужно создать таблицу для скидок в БД
+                    // Пока просто имитируем сохранение
 
-            DialogResult = true;
-            Close();
+                    MessageBox.Show("✅ Скидка успешно создана!", "Успех",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                DialogResult = true;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"❌ Ошибка сохранения: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

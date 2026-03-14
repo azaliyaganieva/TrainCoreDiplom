@@ -2,9 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Редактирование поезда"
-        Height="434" Width="400"
+        Height="600" Width="550"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Background="#F5F7FA"
+        xmlns:local="clr-namespace:TrainCoreDiplom.AdminWindows">
+
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#1E88E5"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -13,31 +23,174 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" 
-                   Text="Данные поезда"
-                   FontSize="18"
-                   FontWeight="Bold"
-                   Foreground="#1E88E5"
-                   Margin="0,0,0,20"/>
+        <!-- Заголовок -->
+        <Border Grid.Row="0"
+                Background="#1E88E5"
+                CornerRadius="8"
+                Padding="15"
+                Margin="0,0,0,20">
+            <TextBlock x:Name="TitleText"
+                       Text="Данные поезда"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+        </Border>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Номер поезда" Margin="0,0,0,5"/>
-            <TextBox x:Name="NumberTextBox" Style="{StaticResource ModernTextBoxStyle}" Margin="0,0,0,15"/>
+        <!-- Основная часть с прокруткой -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Border Background="White"
+                    CornerRadius="8"
+                    Padding="20">
+                <StackPanel>
+                    <!-- Основная информация -->
+                    <TextBlock Text="Основная информация"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"
+                               Margin="0,0,0,10"/>
 
-            <TextBlock Text="Название поезда" Margin="0,0,0,5"/>
-            <TextBox x:Name="NameTextBox" Style="{StaticResource ModernTextBoxStyle}" Margin="0,0,0,15"/>
+                    <TextBlock Text="Номер поезда" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="NumberTextBox"
+                             Style="{StaticResource ModernTextBoxStyle}"
+                             Margin="0,0,0,15"/>
 
-            <TextBlock Text="Тип поезда" Margin="0,0,0,5"/>
-            <ComboBox x:Name="TypeComboBox" Style="{StaticResource ModernComboBoxStyle}" Margin="0,0,0,15"/>
-        </StackPanel>
+                    <TextBlock Text="Название поезда" Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="NameTextBox"
+                             Style="{StaticResource ModernTextBoxStyle}"
+                             Margin="0,0,0,15"/>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Отмена" 
+                    <TextBlock Text="Тип поезда" Style="{StaticResource LabelStyle}"/>
+                    <ComboBox x:Name="TypeComboBox"
+                              Style="{StaticResource ModernComboBoxStyle}"
+                              Margin="0,0,0,15"
+                              DisplayMemberPath="Name_type_train"
+                              SelectedValuePath="ID_type_train"/>
+
+                    <!-- Управление вагонами -->
+                    <TextBlock Text="Управление вагонами"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#1E88E5"
+                               Margin="0,20,0,10"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Количество вагонов -->
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Количество вагонов"
+                                   Style="{StaticResource LabelStyle}"/>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Button Content="−"
+                                    Width="30" Height="30"
+                                    Margin="0,0,5,0"
+                                    Click="DecreaseWagons_Click"
+                                    Style="{StaticResource SecondaryButtonStyle}"/>
+
+                            <TextBox x:Name="WagonsCountTextBox"
+                                     Text="{Binding WagonsCount, Mode=OneWay}"
+                                     Width="50"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     IsReadOnly="True"
+                                     Background="#F5F5F5"
+                                     Style="{StaticResource ModernTextBoxStyle}"/>
+
+                            <Button Content="+"
+                                    Width="30" Height="30"
+                                    Margin="5,0,0,0"
+                                    Click="IncreaseWagons_Click"
+                                    Style="{StaticResource PrimaryButtonStyle}"/>
+                        </StackPanel>
+
+                        <!-- Тип вагонов -->
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Тип вагонов"
+                                   Style="{StaticResource LabelStyle}"
+                                   Margin="0,10,0,5"/>
+
+                        <ComboBox Grid.Row="1" Grid.Column="1"
+                                  x:Name="WagonTypeComboBox"
+                                  Style="{StaticResource ModernComboBoxStyle}"
+                                  Width="150"
+                                  Margin="0,10,0,5"
+                                  HorizontalAlignment="Right"
+                                  DisplayMemberPath="Name_type_wagon"
+                                  SelectedValuePath="ID_type_wagon"
+                                  SelectionChanged="WagonTypeComboBox_SelectionChanged"/>
+                    </Grid>
+
+                    <!-- Информация о местах -->
+                    <Border Background="#F5F5F5"
+                            CornerRadius="8"
+                            Padding="15"
+                            Margin="0,20,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="🚆"
+                                       FontSize="24"
+                                       Margin="0,0,10,0"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="Всего вагонов" Foreground="#757575" FontSize="11"/>
+                                <TextBlock x:Name="TotalWagonsText"
+                                           Text="{Binding WagonsCount, Mode=OneWay}"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="#1E88E5"/>
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0"
+                                       Text="🪑"
+                                       FontSize="24"
+                                       Margin="0,10,0,0"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+                                <TextBlock Text="Всего мест" Foreground="#757575" FontSize="11"/>
+                                <TextBlock x:Name="TotalSeatsText"
+                                           Text="{Binding TotalSeats, Mode=OneWay}"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="#43A047"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <!-- Кнопки внизу -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0">
+            <Button Content="Отмена"
                     Style="{StaticResource SecondaryButtonStyle}"
                     Width="100" Height="40"
                     Margin="0,0,10,0"
                     Click="CancelButton_Click"/>
-            <Button Content="Сохранить" 
+            <Button Content="Сохранить"
                     Style="{StaticResource PrimaryButtonStyle}"
                     Width="100" Height="40"
                     Click="SaveButton_Click"/>

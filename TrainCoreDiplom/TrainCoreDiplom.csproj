@@ -282,6 +282,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ManagerPages\ManagerDashboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManagerPages\ManagerProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManagerPages\ManagerReportsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManagerPages\ManagerSchedulePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManagerPages\ManagerTrainsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ConfirmCodePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,6 +372,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagerPages\ManagerDashboardPage.xaml.cs">
+      <DependentUpon>ManagerDashboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerPages\ManagerProfilePage.xaml.cs">
+      <DependentUpon>ManagerProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerPages\ManagerReportsPage.xaml.cs">
+      <DependentUpon>ManagerReportsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerPages\ManagerSchedulePage.xaml.cs">
+      <DependentUpon>ManagerSchedulePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerPages\ManagerTrainsPage.xaml.cs">
+      <DependentUpon>ManagerTrainsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ConfirmCodePage.xaml.cs">
       <DependentUpon>ConfirmCodePage.xaml</DependentUpon>
     </Compile>

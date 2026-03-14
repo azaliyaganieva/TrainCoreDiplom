@@ -1,18 +1,57 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using TrainCoreDiplom.DBConnection;
 
 namespace TrainCoreDiplom.AdminWindows
 {
-    public partial class ScheduleEditWindow : Window
+    public partial class ScheduleEditWindow : Window, INotifyPropertyChanged
     {
         private Schedule _schedule;
         private bool _isEdit;
 
+        // Свойства для привязки
+        private DateTime _startDate;
+        private DateTime _endDate;
+        private string _startTime;
+        private string _endTime;
+
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set { _startDate = value; OnPropertyChanged(); }
+        }
+
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set { _endDate = value; OnPropertyChanged(); }
+        }
+
+        public string StartTime
+        {
+            get => _startTime;
+            set { _startTime = value; OnPropertyChanged(); }
+        }
+
+        public string EndTime
+        {
+            get => _endTime;
+            set { _endTime = value; OnPropertyChanged(); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         public ScheduleEditWindow(Schedule schedule = null)
         {
             InitializeComponent();
+            DataContext = this; // Важно! Устанавливаем DataContext
 
             LoadComboBoxes();
 
@@ -20,15 +59,25 @@ namespace TrainCoreDiplom.AdminWindows
             {
                 _schedule = schedule;
                 _isEdit = true;
-                LoadScheduleData();
+
+                // Загружаем данные
+                TrainComboBox.SelectedValue = schedule.ID_Train;
+                RouteComboBox.SelectedValue = schedule.ID_Route;
+                StartDate = schedule.Date_Start;
+                EndDate = schedule.Date_finish;
+                StartTime = schedule.Time_start.ToString(@"hh\:mm");
+                EndTime = schedule.Time_finish.ToString(@"hh\:mm");
+
                 Title = "Редактирование рейса";
             }
             else
             {
                 _isEdit = false;
                 Title = "Добавление рейса";
-                StartDatePicker.SelectedDate = DateTime.Today;
-                EndDatePicker.SelectedDate = DateTime.Today;
+                StartDate = DateTime.Today;
+                EndDate = DateTime.Today;
+                StartTime = "00:00";
+                EndTime = "00:00";
             }
         }
 
@@ -69,24 +118,6 @@ namespace TrainCoreDiplom.AdminWindows
             }
         }
 
-        private void LoadScheduleData()
-        {
-            try
-            {
-                TrainComboBox.SelectedValue = _schedule.ID_Train;
-                RouteComboBox.SelectedValue = _schedule.ID_Route;
-                StartDatePicker.SelectedDate = _schedule.Date_Start;
-                StartTimeTextBox.Text = _schedule.Time_start.ToString(@"hh\:mm");
-                EndDatePicker.SelectedDate = _schedule.Date_finish;
-                EndTimeTextBox.Text = _schedule.Time_finish.ToString(@"hh\:mm");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка загрузки данных рейса: {ex.Message}", "Ошибка",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -106,21 +137,15 @@ namespace TrainCoreDiplom.AdminWindows
                     return;
                 }
 
-                if (!StartDatePicker.SelectedDate.HasValue || !EndDatePicker.SelectedDate.HasValue)
-                {
-                    MessageBox.Show("Выберите даты", "Ошибка",
-                                  MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (!TimeSpan.TryParse(StartTimeTextBox.Text, out TimeSpan startTime))
+                // Парсим время
+                if (!TimeSpan.TryParse(StartTime, out TimeSpan startTime))
                 {
                     MessageBox.Show("Некорректное время отправления", "Ошибка",
                                   MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                if (!TimeSpan.TryParse(EndTimeTextBox.Text, out TimeSpan endTime))
+                if (!TimeSpan.TryParse(EndTime, out TimeSpan endTime))
                 {
                     MessageBox.Show("Некорректное время прибытия", "Ошибка",
                                   MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -137,8 +162,8 @@ namespace TrainCoreDiplom.AdminWindows
                         {
                             schedule.ID_Train = (int)TrainComboBox.SelectedValue;
                             schedule.ID_Route = (int)RouteComboBox.SelectedValue;
-                            schedule.Date_Start = StartDatePicker.SelectedDate.Value;
-                            schedule.Date_finish = EndDatePicker.SelectedDate.Value;
+                            schedule.Date_Start = StartDate;
+                            schedule.Date_finish = EndDate;
                             schedule.Time_start = startTime;
                             schedule.Time_finish = endTime;
                         }
@@ -149,8 +174,8 @@ namespace TrainCoreDiplom.AdminWindows
                         {
                             ID_Train = (int)TrainComboBox.SelectedValue,
                             ID_Route = (int)RouteComboBox.SelectedValue,
-                            Date_Start = StartDatePicker.SelectedDate.Value,
-                            Date_finish = EndDatePicker.SelectedDate.Value,
+                            Date_Start = StartDate,
+                            Date_finish = EndDate,
                             Time_start = startTime,
                             Time_finish = endTime
                         };
